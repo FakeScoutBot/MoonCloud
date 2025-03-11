@@ -49,7 +49,23 @@ import sqlite3
 import platform
 import subprocess
 from pathlib import Path
+from flask import Flask
+from threading import Thread
 
+app = Flask('')
+
+@app.route('/')
+def main():
+    return "alive"
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+def keep_alive():
+    server = Thread(target=run)
+    server.start()
+
+keep_alive()
 from pyrogram import Client, idle, errors
 from pyrogram.enums.parse_mode import ParseMode
 from pyrogram.raw.functions.account import GetAuthorizations, DeleteAccount
